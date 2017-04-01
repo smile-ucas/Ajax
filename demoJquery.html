@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户端（使用jquery封装好的ajax，兼容性也不用多考虑了，写起来也方便，还可以调用封装好的其他方法和设置项，替我们监听事件，封装了底层初始化XHR对象）</title>
+    <style>
+        *{
+            font-size:25px;
+        }
+    </style>
+</head>
+<body>
+<h1>员工查询</h1>
+<label>请输入员工编号：</label><input type="text" id="keyword"/>
+<button id="search">查询</button><br/>
+<p id="searchResult"></p>
+
+<h1>员工创建</h1>
+<label>请输入员工姓名：</label><input type="text" id="staffName"/><br/>
+<label>请输入员工编号：</label><input type="text" id="staffNumber"/><br/>
+<label>请输入员工性别：</label><select id="staffSex"><option>男</option><option>女</option></select><br/>
+<label>请输入员工职位：</label><input type="text" id="staffJob"/>
+<button id="save">保存</button>
+<p id="createResult"></p>
+
+<!--可以引入在线的百度资源库中的jquery-->
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.js"></script>
+
+<script>
+    $(document).ready(function () {
+       $("#search").click(function () {
+           $.ajax({
+               type:"get",
+               url:"serverJquery.php?number="+$("#keyword").val(),
+               dataType:"json",
+               success:function (data) {
+                   if(data.success){
+//                       alert("11");
+                       $("#searchResult").html(data.msg);
+                   }
+                   else{
+                       $("#searchResult").html("出现错误:"+data.msg);
+                       // /jquery中，此处不用像dom里的innerHTML,是用html，设了参数是设置值，没有参数就是取值，这点在jquery中很常见
+                   }
+
+               },
+               error:function (jqXHR) {
+                   alert("发生错误"+jqXHR.status);
+               }
+           });
+       });
+        $("#save").click(function () { //关于post请求，ajax会为我们自动加上content-type,就不像在dom中自己写了
+            $.ajax({
+                type:"post",
+                url:"serverJquery.php",
+                dataType:"json",
+                data:{  //因为是post,它要传参，所以在此处以js对象的形式写就行
+                    name:$("#staffName").val(),
+                    number:$("#staffNumber").val(),
+                    sex:$("#staffSex").val(),
+                    job:$("#staffJob").val()
+                },
+                success:function (data) {
+                    if(data.success){
+                        $("#createResult").html(data.msg);
+                    }
+                    else{
+                        $("#createResult").html("出现错误:"+data.msg);
+                    }
+
+                },
+                error:function (jqXHR) {
+                    alert("发生错误"+jqXHR.status);
+                }
+            });
+        });
+    });
+
+
+
+</script>
+</body>
+</html>

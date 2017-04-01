@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户端（客户端要解析json,因为服务器用了json）</title>
+    <style>
+        *{
+            font-size:25px;
+        }
+    </style>
+</head>
+<body>
+<h1>员工查询</h1>
+<label>请输入员工编号：</label><input type="text" id="keyword"/>
+<button id="search">查询</button><br/>
+<p id="searchResult"></p>
+
+<h1>员工创建</h1>
+<label>请输入员工姓名：</label><input type="text" id="staffName"/><br/>
+<label>请输入员工编号：</label><input type="text" id="staffNumber"/><br/>
+<label>请输入员工性别：</label><select id="staffSex"><option>男</option><option>女</option></select><br/>
+<label>请输入员工职位：</label><input type="text" id="staffJob"/>
+<button id="save">保存</button>
+<p id="createResult"></p>
+<script>
+    document.getElementById("search").onclick=function(){
+        //发送ajax查询请求，并进行处理
+        var request=new XMLHttpRequest();
+
+
+        request.open("get","serverJson.php?number="+document.getElementById("keyword").value);//get,post不区分大小写。
+        // 第二个参数，我做的例子是这个html和服务器的server.php在一个目录下，所以可以直接写,由于是get请求，还要带个地址url，通常把参数写在url中，所以在第二个参数上写上
+        // 第三个参数默认true，是异步，它可以不写
+
+
+        request.send();
+
+
+
+
+        request.onreadystatechange=function () {
+            if(request.readyState==4){
+                if(request.status==200){
+                    //要先解析服务器返回的信息
+                    var data=JSON.parse(request.responseText);//之后就可以直接读取data的属性了，此时data是json格式了（
+                    // 前提是服务器传过来的是json字符串）
+                    if(data.success){
+                        document.getElementById("searchResult").innerHTML=data.msg;
+                    }
+                    else{
+                        document.getElementById("searchResult").innerHTML="出现错误:"+data.msg;
+                    }
+
+
+                }
+                else {
+                    alert("发生错误"+request.status);
+                }
+            }
+        }
+
+    }
+
+
+    document.getElementById("save").onclick=function(){
+        //发送ajax请求，并进行处理
+        var request=new XMLHttpRequest();
+
+
+        request.open("post","serverJson.php");//get,post不区分大小写。/第三个参数默认true，是异步，它可以不写
+        var data="name="+document.getElementById("staffName").value
+            +"&number="+document.getElementById("staffNumber").value
+            +"&sex="+document.getElementById("staffSex").value
+            +"&job="+document.getElementById("staffJob").value;
+
+        request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        //post请求需要参数放进send里
+        request.send(data);
+
+
+
+
+        request.onreadystatechange=function () {
+            if(request.readyState==4){
+                if(request.status==200){
+                    //要先解析服务器返回的信息
+                    var data=JSON.parse(request.responseText);//之后就可以直接读取data的属性了，此时data是json格式了（
+                    // 前提是服务器传过来的是json字符串）
+                    if(data.success){
+                        document.getElementById("createResult").innerHTML=data.msg;
+                    }
+                    else{
+                        document.getElementById("createResult").innerHTML="出现错误:"+data.msg;
+                    }
+                }
+                else {
+                    alert("发生错误"+request.status);
+                }
+            }
+        }
+
+    }
+</script>
+</body>
+</html>

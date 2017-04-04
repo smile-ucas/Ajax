@@ -31,6 +31,7 @@ xdr.send(null);
 
 ### 跨浏览器的CORS
 
+```
 function creatCORSrequest(method,url){
 
   var xhr=new XMLHttpRequest();
@@ -64,19 +65,21 @@ if(request){
   };
   request.send();
 }
-
+```
 
 ## 图形Ping (单向，即不能访问响应文本；只能发get)  img可访问任何页面
 
+```
 var img=new Imge();
 
 img.onload=img.onerror=function(){alert("Done!");}
 
 img.src="hrrp://www.baidu.com/test?name=nichoals";
-
+```
 
 ## Jsonp  （回调函数和数据）   script可访问任何页面
 
+```
 function handleResponds(response){alert("you are at in address"+response.ip+",which is in"+response.city+);}
 
 //handleResponds方法中的参数response就是数据
@@ -86,3 +89,4 @@ var script-document.createElement("script");
 script.src="http://www.baidu.com/test/json/?callback=handleResponds";//？后面就是回调函数
 
 document.body.inserBefore(script,document.body.firstChild);
+```

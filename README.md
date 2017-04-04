@@ -77,7 +77,7 @@ img.onload=img.onerror=function(){alert("Done!");}
 img.src="hrrp://www.baidu.com/test?name=nichoals";
 ```
 
-## Jsonp  （回调函数和数据）   script可访问任何页面
+## Jsonp  （回调函数和数据）  (可以直接访问响应文本，浏览器与服务器之间双向通信) script可访问任何页面
 
 ```
 function handleResponds(response){alert("you are at in address"+response.ip+",which is in"+response.city+);}

@@ -12,7 +12,7 @@
 IE8引入的XDR类型，异步执行，所以open的第三个参数就不写了
 
 
-var xhr=new XDomainRequest();
+'var xhr=new XDomainRequest();
 
 xdr.onload=function(){
 
@@ -22,7 +22,7 @@ xdr.onload=function(){
 
 xdr.open("get","http://....");
 
-xdr.send(null);
+xdr.send(null);'
 
 ## 其他浏览器对CORS实现用标准的XHR对象，在open中传入绝对URL即可。
 

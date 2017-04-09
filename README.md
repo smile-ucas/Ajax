@@ -11,7 +11,7 @@
 IE8引入的XDR类型，异步执行，所以open的第三个参数就不写了
 
 ```
-var xhr=new XDomainRequest();
+var xdr=new XDomainRequest();
 
 xdr.onload=function(){
 
